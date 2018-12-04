@@ -6,7 +6,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
 
 
     <TextView
@@ -17,6 +19,7 @@
         android:padding="10dp"
         android:text="Select Plantation Date"
         android:textColor="@android:color/black"
+        android:textSize="18sp"
         android:drawableRight="@drawable/ic_calendar"/>
 
     <android.support.design.widget.TextInputLayout
@@ -27,7 +30,7 @@
             android:id="@+id/edtMaturityDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter maturity date"
+            android:hint="Enter maturity days"
             android:inputType="numberSigned"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -37,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text=""
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@android:color/black"
         android:padding="10dp"/>
 </LinearLayout>

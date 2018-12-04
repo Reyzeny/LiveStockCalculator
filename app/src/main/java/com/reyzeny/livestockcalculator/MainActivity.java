@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
         edtMaturityDays = findViewById(R.id.edtMaturityDate);
         tvHarvestDate = findViewById(R.id.tvHarvestDate);
         initComponents();
-        //Crop harvest date
-        //and  planting date
-        //days to maturity
     }
 
     private void initComponents() {
@@ -41,13 +38,11 @@ public class MainActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        Toast.makeText(MainActivity.this, "year is " + String.valueOf(year) + " month is " + String.valueOf(month) + " day is " + String.valueOf(day), Toast.LENGTH_LONG).show();
                         int display_month = month + 1;
-                        Toast.makeText(MainActivity.this, "display month is " + String.valueOf(display_month), Toast.LENGTH_SHORT).show();
                         plantationCalendar.set(Calendar.YEAR, year);
                         plantationCalendar.set(Calendar.MONTH, month);
                         plantationCalendar.set(Calendar.DAY_OF_MONTH, day);
-                        String plantation_date = String.valueOf(plantationCalendar.get(Calendar.DAY_OF_MONTH)) +"-"+String.valueOf(display_month)+"-"+String.valueOf(plantationCalendar.get(Calendar.YEAR));
+                        String plantation_date = String.valueOf(String.format("%02d", plantationCalendar.get(Calendar.DAY_OF_MONTH))) +"-"+String.valueOf(String.format("%02d", display_month))+"-"+String.valueOf(plantationCalendar.get(Calendar.YEAR));
                         tvPlantationDate.setText(plantation_date);
                         plantationDateSet = true;
                         CalculateHarvestDate();
@@ -75,23 +70,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private void CalculateHarvestDate() {
-        Toast.makeText(this, "Calculating harvest date", Toast.LENGTH_SHORT).show();
         int maturity_days = edtMaturityDays.getText().toString().isEmpty() ? 0 : Integer.parseInt(edtMaturityDays.getText().toString());
-        System.out.println("maturity day is " + maturity_days);
-        Toast.makeText(this, "maturity day is " + String.valueOf(maturity_days), Toast.LENGTH_SHORT).show();
         if (plantationDateSet && maturity_days > 0) {
-            long maturity_days_in_milliseconds = 86400 * 1000 * maturity_days;
-            harvestCalendar.setTimeInMillis(plantationCalendar.getTimeInMillis() + maturity_days_in_milliseconds);
+            harvestCalendar.setTimeInMillis(plantationCalendar.getTimeInMillis());
+            harvestCalendar.add(Calendar.DATE, maturity_days);
             int day = harvestCalendar.get(Calendar.DAY_OF_MONTH);
             int month = harvestCalendar.get(Calendar.MONTH);
             int year = harvestCalendar.get(Calendar.YEAR);
-            String harvest_date = String.valueOf(day)+"-"+String.valueOf(++month)+"-"+String.valueOf(year);
-            Toast.makeText(this, "harvest date is " + harvest_date, Toast.LENGTH_SHORT).show();
-            tvHarvestDate.setText(harvest_date);
-        }else {
+            String harvest_date = String.valueOf(String.format("%02d", day))+"-"+String.valueOf(String.format("%02d", ++month))+"-"+String.valueOf(year);
+            tvHarvestDate.setText("Harvest Date is " + harvest_date);
+        }else{
             tvHarvestDate.setText("");
-            Toast.makeText(this, "making it empty", Toast.LENGTH_SHORT).show();
         }
     }
 }
